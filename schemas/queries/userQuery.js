@@ -1,10 +1,9 @@
-const graphql = require('graphql')
-const {UserType} = require('../Type.js')
-const User= require('../../models/user.js')
-const jwt= require('jsonwebtoken')
-const bcrypt= require('bcryptjs')
-const StartUp = require('../../models/StartUp.js')
-
+import graphql from 'graphql'
+import { UserType } from '../Type.js'
+import User from '../../models/user.js'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import StartUp from '../../models/StartUp.js'
 
 const {
     GraphQLID,
@@ -15,7 +14,7 @@ const {
     GraphQLList
 } = graphql
 
-const login = {
+export const login = {
     type: UserType,
     args: {
         email: {type:GraphQLString},
@@ -61,7 +60,7 @@ const login = {
     }
 }
 
-const getUser = {
+export const getUser = {
     type: UserType,
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) }
@@ -78,7 +77,7 @@ const getUser = {
   };
   
   
-const getAllUser= {
+export const getAllUser= {
     type: new GraphQLList(UserType),
     async resolve(parent,args, req){
         let users= await User.find({isInvestor: false});
@@ -86,7 +85,7 @@ const getAllUser= {
     }
 }
 
-const getAllInvestors= {
+export const getAllInvestors= {
     type: new GraphQLList(UserType),
     async resolve(parent, args, req){
         let investors= await User.find({isInvestor: true});
@@ -96,11 +95,4 @@ const getAllInvestors= {
 
 const getUserByLocation= {
     // need to be implemented
-}
-
-module.exports={
-    getAllUser, 
-    getAllInvestors,
-    login,
-    getUser
 }

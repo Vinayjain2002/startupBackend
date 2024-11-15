@@ -1,4 +1,4 @@
-const mongoose= require('mongoose')
+import mongoose from "mongoose";
 
 const postSchema= mongoose.Schema({
     title:{
@@ -69,4 +69,4 @@ postSchema.methods.addComment= function (userId, commentText){
 }
 
 const Post=  mongoose.model("Post", postSchema)
-module.exports= Post
+export default Post

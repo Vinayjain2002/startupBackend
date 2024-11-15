@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 const userSchema = mongoose.Schema(
   {
@@ -85,6 +86,10 @@ const userSchema = mongoose.Schema(
     isInvestor: {
         type: Boolean,
         default: false
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false
     }
     },
   {
@@ -122,4 +127,4 @@ userSchema.methods.generateAuthToken = function () {
 };
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+export default User;

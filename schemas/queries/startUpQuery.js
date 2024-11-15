@@ -1,6 +1,6 @@
-const graphql = require('graphql')
-const {StartUpType}= require('../Type.js')
-const StartUp = require('../../models/StartUp.js')
+import graphql from 'graphql'
+import { StartUpType } from '../Type.js'
+import StartUp from '../../models/StartUp.js'
 
 const {
     GraphQLID,
@@ -12,7 +12,7 @@ const {
 } = graphql
 
 
-const getAllStartUps={
+export const getAllStartUps={
     type: StartUpType,
     async resolve(parent, args){
         const allstartUp= await StartUp.find({});
@@ -20,7 +20,7 @@ const getAllStartUps={
     }
 } 
 
-const getStartUpbyId= {
+export const getStartUpbyId= {
     type: StartUpType,
     args: {
         id: {
@@ -34,7 +34,7 @@ const getStartUpbyId= {
 }
 
 
-const NotFundedStartUp = {
+export const NotFundedStartUp = {
     type: new GraphQLList(StartUpType),
     async resolve(parent, args) {
       const notFunded = await StartUp.find({ 'fundingDetails.totalFunding': { $eq: 0 } });
@@ -46,9 +46,3 @@ const searchStartUpsByLocation= {
     // need to be implemented
 }
 
-module.exports={
-    NotFundedStartUp,
-    getAllStartUps,
-    getStartUpbyId,
-    searchStartUpsByLocation
-}

@@ -1,4 +1,5 @@
-const mongoose= require('mongoose')
+import mongoose  from "mongoose";
+
 const startUpSchema= mongoose.Schema({
     startUpName: {
         type:String,
@@ -130,4 +131,4 @@ startUpSchema.methods.calculateTotalFunding= function(){
 }
 
 const StartUp= mongoose.model('StartUp', startUpSchema);
-module.exports= StartUp;
+export default StartUp;

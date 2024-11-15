@@ -1,13 +1,12 @@
-const graphql = require('graphql')
-const GraphQLDate = require('graphql-date')
-const User = require('../models/user.js')
-const Post = require('../models/Posts.js')
-const Message= require('../models/messageModal.js')
-const StartUp= require('../models/StartUp.js')
-const Chat= require('../models/chatModal.js')
+import graphql from 'graphql'
+import GraphQLDate from 'graphql-date'
+import User from '../models/user.js'
+import Chat from '../models/chatModal.js'
+import StartUp from '../models/StartUp.js'
+import Post from '../models/Posts.js'
+import Message from '../models/messageModal.js'
+import  {GraphQLJSON, GraphQLJSONObject} from 'graphql-type-json'
 
-const {GraphQLJSON, GraphQLJSONObject}= require('graphql-type-json')
-const { GraphQLNonNull } = require('graphql')
 const {
     GraphQLID,
     GraphQLInt,
@@ -15,11 +14,12 @@ const {
     GraphQLBoolean,
     GraphQLObjectType,
     GraphQLList,
-    GraphQLInputObjectType
+    GraphQLInputObjectType,
+    GraphQLNonNull
 } = graphql
 
 
-const achievements= new GraphQLObjectType({
+ const achievements= new GraphQLObjectType({
     name: 'Achievement',
     fields: ()=>({
             title: {type: new GraphQLNonNull(GraphQLString) },
@@ -29,7 +29,7 @@ const achievements= new GraphQLObjectType({
 });
 
 // StartUpType definition
-const StartUpType = new GraphQLObjectType({
+export  const StartUpType = new GraphQLObjectType({
     name: 'StartUp',
     fields: () => ({
       role: { type: GraphQLString },
@@ -74,7 +74,7 @@ const StartUpType = new GraphQLObjectType({
     })
   });
   
-  const AuthType = new GraphQLObjectType({
+ export  const AuthType = new GraphQLObjectType({
     name: 'Auth',
     fields: ()=>({
       id: {type: GraphQLID},
@@ -86,7 +86,7 @@ const StartUpType = new GraphQLObjectType({
   });
   
   // UserType definition
-  const UserType = new GraphQLObjectType({
+ export  const UserType = new GraphQLObjectType({
     name: "User",
     fields: () => ({
       id: { type: GraphQLID },
@@ -111,7 +111,7 @@ const StartUpType = new GraphQLObjectType({
   });
   
   
-const PostType = new GraphQLObjectType({
+export const PostType = new GraphQLObjectType({
     name: "Post",
     fields: () => ({
       id: { type: GraphQLID },
@@ -159,7 +159,7 @@ const PostType = new GraphQLObjectType({
   
   
 
-  const ChatType = new GraphQLObjectType({
+export   const ChatType = new GraphQLObjectType({
     name: "Chat",
     fields: () => ({
       id: { type: GraphQLID }, // Chat ID
@@ -185,23 +185,11 @@ const PostType = new GraphQLObjectType({
   });
 
  export const MessageType= new GraphQLObjectType({
-    sender: {type: UserType, resolve(parent,args){
-        return User.findById(parent.sender);
-    }},
-    message: {type: GraphQLString},
-    chatId: {
-        type: ChatType,
-        resolve(parent,args){
-            return Chat.findById(parent.chatId);
-        }
-    }
+    name: "Message",
+    fields:()=>({
+      id: {type: GraphQLID},
+      sender: {type: UserType},
+      message: {GraphQLString},
+      chatId: {type: ChatType}
+    })
  })
-
- module.exports= {
-  MessageType,
-  ChatType,
-  PostType,
-  UserType,
-  AuthType,
-  StartUpType
- }
